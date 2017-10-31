@@ -4,7 +4,7 @@ $(function(){
 
     var objsql = new cartodb.SQL({ user : 'finanzasdf-admin' });
 
-        objsql.execute("SELECT DISTINCT(categoria) FROM sismo_categoria_capa_1 ORDER BY categoria ASC")
+        objsql.execute("SELECT DISTINCT(categoria) FROM sismo_categoria_1 ORDER BY categoria ASC")
         .on("done",function(data){
 
                 for(idx in data.rows){
@@ -14,7 +14,7 @@ $(function(){
         });//Fin .on("done",function(data){
 
         $("#enviar").on("click",function(evt){
-            
+
             var optiondelegacion = $("#selectDel").val();
             var optionnamedataset = $("#inputdataset").val();
             var optionnamecapa = $("#inputcapa").val();
@@ -24,7 +24,7 @@ $(function(){
 	            var strsql ='https://finanzasdf-admin.carto.com/api/v2/sql?q='+qrycolumname+'&api_key=9636b95f3e6c01a780c65a869e491303ed330f9c';
 	            $.getJSON(strsql,function(data){
 	            	for(idx in data.rows){
-	            		var field; 
+	            		var field;
 	            		field = data.rows[idx].fields;
 		            	var field_string = field.toString();
 			            var sustituir = /'/g;
@@ -35,7 +35,7 @@ $(function(){
 
 			            var optionfields = $("#fields").val();
 
-			            var strsqlinsert ="INSER INTO "+'"finanzasdf-admin"'+".sismo_categoria_capa_1 (categoria, dataset, fields, nombre_de_capa) VALUES ('"+optiondelegacion+"','"+optionnamedataset+"','"+nuevofields+"','"+optionnamecapa+"')" ;
+			            var strsqlinsert ="INSERT INTO "+'"finanzasdf-admin"'+".sismo_categoria_capa_1 (categoria, dataset, fields, nombre_de_capa) VALUES ('"+optiondelegacion+"','"+optionnamedataset+"','"+nuevofields+"','"+optionnamecapa+"')" ;
 			            console.log(strsqlinsert);
 			            $.getJSON("https://finanzasdf-admin.carto.com/api/v2/sql?q="+strsqlinsert+"&api_key=9636b95f3e6c01a780c65a869e491303ed330f9c", function(data){
 			                 $.each(data.rows, function(key, val) {
